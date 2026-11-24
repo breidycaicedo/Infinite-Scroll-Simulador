@@ -217,7 +217,6 @@ header{gap:10px}
     <button class="gh" id="bGJ"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4M5 4v16h4M19 4h-4M19 4v16h-4M10 9h4M10 15h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Gauss-Jordan</span></button>
     <button class="gh" id="bPQ"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>¿Qué estoy viendo?</span></button>
     <button class="gh" id="bTour"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 8-14 8z" fill="currentColor"/></svg><span>Tutorial</span></button>
-    <button class="gh" id="bDat"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h10l4 4v12H5zM9 12h6M9 16h6" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Mis datos</span></button>
     <button class="gh" id="bPres" aria-pressed="false"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v11H3zM8 20h8M12 16v4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Presentación</span></button>
   </div>
 </header>
@@ -319,10 +318,6 @@ header{gap:10px}
 <script>
 {
 const CAT=[{k:'H',n:'Humor',c:'#ffb23e'},{k:'B',n:'Belleza',c:'#ff4f8b'},{k:'E',n:'Educación',c:'#3d9bff'}];
-const EJ={
-  A:{t:'HHEEHHEHBB BHHHHHHEEE EHHHHHHHEE BBHHHHHHHB\nBHHEBBBBHH HEHHHHHHBH EEEEEHHHHH EHHHEEHBEE\nEEHHEEHEEE HHHHEBBHBH HHHEEBBEHH HHHBEHEHBB',i:0},
-  B:{t:'HHBEHEEEEB HBHHEEEEEE EEEEEEEEEE HBBEEEEEEE\nBBBBHHEEHE EEEEEEEEBH BEEEHEEEEE HHHHHHEHEB\nEEHHEEEEEB EHEEEHHHHE EEEEHEEBEE EHEEEEEEEE',i:2}
-};
 const $=s=>document.querySelector(s);
 const fx=(v,d)=>{const s=(+v).toFixed(d);return /^-0\.?0*$/.test(s)?s.slice(1):s};
 const f2=v=>fx(v,2), f4=v=>fx(v,4);
@@ -331,9 +326,6 @@ const mul=(T,x)=>[0,1,2].map(i=>T[i][0]*x[0]+T[i][1]*x[1]+T[i][2]*x[2]);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const HEART='<svg viewBox="0 0 24 24" class="%"><path d="M12 20.5l-1.4-1.3C5.4 14.5 2 11.4 2 7.6 2 4.5 4.4 2 7.5 2c1.7 0 3.4.8 4.5 2.1C13.1 2.8 14.8 2 16.5 2 19.6 2 22 4.5 22 7.6c0 3.8-3.4 6.9-8.6 11.6L12 20.5z"/></svg>';
 
-function parse(t){const ses=[];for(const l of String(t).split(/\n+/)){const s=[...l.toUpperCase()].map(ch=>'HBE'.indexOf(ch)).filter(i=>i>=0);if(s.length)ses.push(s)}return ses}
-function contar(ses){const C=[[0,0,0],[0,0,0],[0,0,0]];for(const s of ses)for(let k=0;k<s.length-1;k++)C[s[k+1]][s[k]]++;return C}
-function aT(C){const T=[[0,0,0],[0,0,0],[0,0,0]];for(let j=0;j<3;j++){const n=C[0][j]+C[1][j]+C[2][j];if(!n)return null;for(let i=0;i<3;i++)T[i][j]=C[i][j]/n}return T}
 function gj(Tm){
   const A=[0,1,2].map(i=>[0,1,2].map(j=>Tm[i][j]-(i===j?1:0)).concat(0));A.push([1,1,1,1]);
   const F=n=>'F<sub>'+n+'</sub>';const pasos=[{ops:[],M:cp(A)}];let fp=0;
@@ -350,11 +342,8 @@ function gj(Tm){
   if(pi.some(v=>!isFinite(v))){let x=[1/3,1/3,1/3];for(let k=0;k<500;k++)x=mul(Tm,x);pi=x}
   return {pasos,pi}}
 
-let datos={A:{t:EJ.A.t,i:EJ.A.i},B:{t:EJ.B.t,i:EJ.B.i}};
-try{const g=JSON.parse(localStorage.getItem('isim-datos-v1')||'null');if(g&&g.A&&g.B&&typeof g.A.t==='string'&&typeof g.B.t==='string')datos={A:{t:g.A.t,i:+g.A.i||0},B:{t:g.B.t,i:+g.B.i||0}}}catch(e){}
-const TM={A:null,B:null,P:null};
-function calcT(){for(const c of ['A','B'])TM[c]=aT(contar(parse(datos[c].t)))||aT(contar(parse(EJ[c].t)))}
-calcT();
+const datos={A:{i:0},B:{i:2}};
+const TM={A:[[.68,.37,.39],[.11,.47,.12],[.21,.16,.49]],B:[[.43,.31,.14],[.14,.31,.07],[.43,.38,.79]],P:null};
 
 const S={cuenta:'A',x0:'U',n:0,x:[1/3,1/3,1/3],act:0,feed:[],cnt:[0,0,0],hist:[],frec:[],play:false,vel:3,ult:null,pi:[1/3,1/3,1/3],nextAt:0,etq:true};
 const tok={mov:false,t:0,dur:.6,d:null,e:null};
@@ -391,9 +380,8 @@ function pintarCuentas(){
   for(const b of document.querySelectorAll('#vel button'))b.setAttribute('aria-pressed',+b.dataset.v===S.vel);
   const p=$('#pat');
   if(S.cuenta==='P')p.innerHTML='<span>Matriz editada a mano: estás explorando qué pasaría con otras probabilidades.</span>';
-  else{const k=datos[S.cuenta].i;p.innerHTML=HEART.replace('%','').replace('<svg','<svg width="20" height="20" fill="#ff2d55"')+'<span><b>Cuenta '+S.cuenta+':</b> da like y ve completos los videos de <b style="color:'+CAT[k].c+'">'+CAT[k].n+'</b>; los demás los pasa rápido.</span>'}
-  const ej=datos.A.t===EJ.A.t&&datos.B.t===EJ.B.t;
-  $('#nota').textContent=ej?'Datos de ejemplo. Pongan los suyos en “Mis datos”.':'Matrices calculadas con los datos registrados por el grupo.';
+  else{const k=datos[S.cuenta].i;p.innerHTML=HEART.replace('%','').replace('<svg','<svg width="20" height="20" fill="#ff2d55"')+'<span><b>Cuenta '+S.cuenta+':</b> escenario de una cuenta que da like y ve completos los videos de <b style="color:'+CAT[k].c+'">'+CAT[k].n+'</b>; los demás los pasa rápido.</span>'}
+  $('#nota').textContent='Matrices de los escenarios A y B: supuestos del modelo, iguales a las del notebook.';
 }
 function tarjeta(cat,num,like){
   const d=document.createElement('div');const c=CAT[cat];d.className='vid';
@@ -608,21 +596,6 @@ function verGJ(){
 function verPQ(){
   abrir('<h2>¿Qué estoy viendo?</h2><h3>La escena</h3><ul><li><b>Esferas:</b> los estados Humor, Belleza y Educación. Su tamaño es x<sub>n</sub>, la probabilidad de que el video n sea de esa categoría.</li><li><b>Tubos con flecha:</b> las probabilidades t<sub>ij</sub> de pasar de la categoría j a la i. Más grueso = más probable. El color es el de la categoría de donde sale.</li><li><b>Anillos:</b> t<sub>jj</sub>, quedarse en la misma categoría. Un anillo grueso es una “burbuja”.</li><li><b>Partículas:</b> el flujo de probabilidad x<sub>j</sub>·t<sub>ij</sub>, lo que pasa de j a i en cada paso.</li><li><b>Punto brillante:</b> el video que está viendo la cuenta; viaja por el tubo que salió en el sorteo.</li></ul><h3>Las matemáticas</h3><ul><li>Cada paso calcula x<sub>n+1</sub> = T·x<sub>n</sub>: cada fila de T por el vector x<sub>n</sub>.</li><li>El siguiente video se sortea con la columna de T del video actual. Eso es la propiedad de Markov: solo importa el video actual.</li><li>Cuando lo que entra a cada esfera es igual a lo que sale, x<sub>n</sub> deja de cambiar: es el estado estacionario π, que se obtiene resolviendo (T − I)π = 0 por Gauss-Jordan.</li><li>La gráfica compara el modelo (x<sub>n</sub>) con la frecuencia de cada categoría en el feed simulado: con muchos videos la simulación se acerca a π.</li></ul><p class="cap">Simulador educativo: muestra el modelo de Markov, no el algoritmo real de TikTok.</p>');
 }
-function verDatos(){
-  const opt=k=>CAT.map((c,i)=>'<option value="'+i+'"'+(i===k?' selected':'')+'>'+c.n+'</option>').join('');
-  abrir('<h2>Mis datos</h2><p>Peguen las secuencias que registraron: una sesión por renglón, con H, B o E por cada video en orden (los espacios no importan). El simulador cuenta las transiciones y calcula T igual que el notebook.</p><div class="dat"><div><label for="tA">Cuenta A</label><textarea id="tA" spellcheck="false"></textarea><label for="iA" style="margin-top:10px">Interactuó con</label><select id="iA">'+opt(datos.A.i)+'</select></div><div><label for="tB">Cuenta B</label><textarea id="tB" spellcheck="false"></textarea><label for="iB" style="margin-top:10px">Interactuó con</label><select id="iB">'+opt(datos.B.i)+'</select></div></div><p class="msg" id="dMsg"></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" id="dOk">Calcular matrices</button><button class="btn" id="dEj">Volver a los datos de ejemplo</button></div>');
-  $('#tA').value=datos.A.t;$('#tB').value=datos.B.t;
-  const vista=()=>{const out=[];for(const c of ['A','B']){const ses=parse($('#t'+c).value);const nv=ses.reduce((a,s)=>a+s.length,0);const C=contar(ses);out.push('Cuenta '+c+': '+ses.length+' sesiones, '+nv+' videos, '+C.flat().reduce((a,b)=>a+b,0)+' transiciones'+(aT(C)?'':' (faltan transiciones desde alguna categoría)'))}$('#dMsg').textContent=out.join(' · ')};
-  vista();$('#tA').addEventListener('input',vista);$('#tB').addEventListener('input',vista);
-  $('#dEj').addEventListener('click',()=>{$('#tA').value=EJ.A.t;$('#tB').value=EJ.B.t;$('#iA').value='0';$('#iB').value='2';vista()});
-  $('#dOk').addEventListener('click',()=>{
-    const nd={A:{t:$('#tA').value,i:+$('#iA').value},B:{t:$('#tB').value,i:+$('#iB').value}};
-    for(const c of ['A','B'])if(!aT(contar(parse(nd[c].t)))){$('#dMsg').textContent='En la cuenta '+c+' hay una categoría sin transiciones: registren más videos.';return}
-    datos=nd;try{localStorage.setItem('isim-datos-v1',JSON.stringify(datos))}catch(e){}
-    calcT();if(S.cuenta==='P')S.cuenta='A';TM.P=null;reset();cerrar();
-  });
-}
-
 /* ---------- tutorial ---------- */
 const TOUR=[
   {s:'#escena',t:'Los estados',p:'Cada esfera es una categoría: Humor, Belleza y Educación. Su tamaño es x<sub>n</sub>, la probabilidad de que el video actual sea de esa categoría.'},
@@ -653,7 +626,7 @@ $('#b1').addEventListener('click',()=>paso(true));
 $('#b10').addEventListener('click',()=>lote(10));
 $('#bReset').addEventListener('click',()=>{setPlay(false);reset()});
 $('#bGJ').addEventListener('click',verGJ);$('#bGJ2').addEventListener('click',verGJ);
-$('#bPQ').addEventListener('click',verPQ);$('#bDat').addEventListener('click',verDatos);
+$('#bPQ').addEventListener('click',verPQ);
 $('#bTour').addEventListener('click',()=>tour(0));
 $('#bPres').addEventListener('click',()=>pres(!document.documentElement.classList.contains('present')));
 $('#bEt').addEventListener('click',()=>{S.etq=!S.etq;$('#etq').classList.toggle('sinE',!S.etq);$('#bEt').setAttribute('aria-pressed',S.etq);$('#bEt').innerHTML='<span>'+(S.etq?'Ocultar':'Mostrar')+' t<sub>ij</sub></span>'});

@@ -1,6 +1,6 @@
 # Infinite Scroll — Simulador de cadenas de Markov
 
-Simulador 3D interactivo del proyecto final de **Matemáticas Aplicadas II** (Universidad Icesi). Modela cómo cambian las recomendaciones de un feed de videos entre tres categorías (Humor, Belleza y Educación) usando cadenas de Markov, y compara dos cuentas con patrones de interacción distintos.
+Simulador 3D interactivo del proyecto final de **Matemáticas Aplicadas II** (Universidad Icesi). Modela cómo cambian las recomendaciones de un feed de videos entre tres categorías (Humor, Belleza y Educación) usando cadenas de Markov, y compara dos escenarios de cuentas con patrones de interacción distintos: la cuenta A interactúa con Humor y la cuenta B con Educación. Las matrices de transición de los escenarios son supuestos del modelo.
 
 **Ver el simulador:** https://breidycaicedo.github.io/Infinite-Scroll-Simulador/
 
@@ -23,9 +23,7 @@ Simulador 3D interactivo del proyecto final de **Matemáticas Aplicadas II** (Un
 | Cambiar de cuenta | **Cuenta A / Cuenta B** o `1` / `2` |
 | Reiniciar | **Reiniciar** o `R` |
 | Vista para proyectar | **Presentación** o `P` |
-| Cargar las secuencias registradas | **Mis datos** |
-
-En **Mis datos** se pega una sesión por renglón, con `H`, `B` o `E` por cada video en orden; el simulador cuenta las transiciones y calcula las matrices.
+| Probar otras probabilidades | Mover los valores de la matriz T (pasa a **Editada**) |
 
 ## Integrantes
 
